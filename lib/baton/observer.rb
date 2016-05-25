@@ -70,5 +70,9 @@ module Baton
       changed
       notify_observers(message)
     end
+
+    def attributes
+      {}
+    end
   end
 end

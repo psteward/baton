@@ -17,7 +17,7 @@ module Baton
     def initialize(daemonize=false)
       @server = Baton::Server.new
       @daemonize = daemonize
-      @pid_file = Baton.configuration.pid_file || "/var/run/baton.pid"
+      @pid_file = Baton.configuration.pid_file || '/var/run/baton.pid'
       Baton::Logging.logger = Baton.configuration.log_file || STDOUT
     end
 
@@ -102,7 +102,7 @@ module Baton
     #
     #   add_consumer(Baton::DeployConsumer.new("consumer_name", Baton::Server.new))
     #
-    # Returns nothing..
+    # Returns nothing.
     def add_consumer(consumer)
       channel.add_consumer(consumer)
     end

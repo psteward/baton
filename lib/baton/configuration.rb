@@ -74,6 +74,9 @@ module Baton
       self.password  = config["RABBIT_PASS"]
       self.heartbeat = config.fetch("RABBIT_HEARTBEAT", 60).to_i
 
+      self.bunny_log_level = config["BUNNY_LOG_LEVEL"]
+      self.bunny_log_file = config["BUNNY_LOG_FILE"]
+
       self.tls      = config["TLS?"]
       self.ssl_client_cert = config["SSL_CLIENT_CERT"]
       self.ssl_ca_certs = (config.fetch("SSL_CA_CERTS") {""}).split(',')

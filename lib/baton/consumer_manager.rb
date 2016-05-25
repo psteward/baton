@@ -22,7 +22,7 @@ module Baton
     #
     # Returns nothing.
     def start
-      queue = channel.queue("", :exclusive => true, :auto_delete => true)
+      queue = channel.queue('', :exclusive => true, :auto_delete => true)
       queue.bind(exchange_in, :routing_key => consumer.routing_key)
       queue.subscribe do |delivery_info, properties, payload|
         logger.debug "Received #{payload}"
@@ -43,7 +43,7 @@ module Baton
     # Returns nothing.
     def update(message)
       case message.fetch(:type){""}
-      when "error"
+      when /error/i
         logger.error message
       else
         logger.info message
