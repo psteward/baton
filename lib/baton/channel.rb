@@ -16,13 +16,23 @@ module Baton
 
       logger.info "Connecting to AMQP host: #{@connection_options[:host]}:#{@connection_options[:port]}"
 
-      @session = Bunny.new(@connection_options)
-      
+      tries = 10
+      seconds_between_tries = 10
+      added_seconds_between_tries = 15
       begin
+        @session = Bunny.new(@connection_options)
         @session.start
-      rescue Bunny::TCPConnectionFailedForAllHosts => e
-        logger.error("#{e.message}. Exiting.")
-        exit 1
+      rescue Exception => e
+        tries -= 1
+        logger.error("#{e.class}: #{e.message}. #{tries} #{tries == 1 ? 'try' : 'tries'} remaining")
+        if tries > 0
+          logger.info("Trying to connect again in #{seconds_between_tries} seconds")
+          sleep seconds_between_tries
+          seconds_between_tries += added_seconds_between_tries
+          retry
+        else
+          exit 1
+        end
       end
             
       @channel = @session.channel
@@ -36,11 +46,13 @@ module Baton
       # Output exchange is how baton returns output
       @exchange_in  = channel.direct(Baton.configuration.exchange)
       if Baton.configuration.exchange_out.nil? || Baton.configuration.exchange_out.empty?
-        logger.error "An output exchange must be configured. Exiting."
+        logger.error 'An output exchange must be configured. Exiting.'
         exit 1
       else
         @exchange_out = channel.direct(Baton.configuration.exchange_out)
       end
+
+      logger.info 'Connection to AMQP host established'
     end
 
 
