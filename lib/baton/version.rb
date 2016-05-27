@@ -1,3 +1,3 @@
 module Baton
-  VERSION = "0.7.2.ssl"
+  VERSION = "0.8.0.ean"
 end

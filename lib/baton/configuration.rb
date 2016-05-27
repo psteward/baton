@@ -104,6 +104,8 @@ module Baton
         :tls_cert => ssl_client_cert,
         :tls_key => ssl_key,
         :tls_ca_certificates => ssl_ca_certs,
+        :log_level => bunny_log_level,
+        :log_file => bunny_log_file,
         :verify_peer => verify_peer
       }.delete_if{|k,v| v.nil?}
     end
