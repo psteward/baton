@@ -1,3 +1,4 @@
+require 'baton/logging'
 require 'baton/observer'
 
 module Baton
